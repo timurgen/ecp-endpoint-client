@@ -34,10 +34,6 @@ RECEIVE_TIMEOUT = int(os.environ.get('RECEIVE_TIMEOUT', 5))
 
 APP = Flask(__name__)
 
-if not WSDL:
-    logging.error("WSDL must be provided")
-    exit(1)
-
 
 @APP.route("/send", methods=['POST'])
 def send():
@@ -74,7 +70,7 @@ def send():
 
             item['content'] = item['content'].decode('utf-8')
 
-            if CONFIRM_RECEIVE and 1 == 2:
+            if CONFIRM_RECEIVE:
                 start_time = time.time()
 
                 while time.time() - start_time < RECEIVE_TIMEOUT:
@@ -93,7 +89,7 @@ def send():
         yield ']'
 
     payload = request.get_json()
-    service = ECPClient.get(WSDL, override_url=None if not ECP_ENDPOINT else ECP_ENDPOINT)
+    service = ECPClient.get(WSDL, override_url=ECP_ENDPOINT)
     return Response(generate_response(), content_type=CT)
 
 
@@ -131,7 +127,7 @@ def check():
         yield ']'
 
     payload = request.get_json()
-    service = ECPClient.get(WSDL, override_url=None if not ECP_ENDPOINT else ECP_ENDPOINT)
+    service = ECPClient.get(WSDL, override_url=ECP_ENDPOINT)
 
     return Response(generate_response(), content_type=CT)
 
