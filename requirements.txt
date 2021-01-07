@@ -14,7 +14,7 @@ isodate==0.6.0
 itsdangerous==1.1.0
 jaraco.functools==2.0
 Jinja2==2.10
-lxml==4.3.2
+lxml==4.6.2
 MarkupSafe==1.1.1
 more-itertools==6.0.0
 portend==2.3
